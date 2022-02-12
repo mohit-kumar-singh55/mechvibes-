@@ -1,10 +1,51 @@
+:root {
+  --background: #0b0e13;
+  --primary: #60759f;
+  --secondary: #394760;
+  --text: #9fadc6;
+}
+
+body {
+  background: var(--background);
+  overflow: hidden;
+}
+
+select {
+  color: var(--text);
+  background-color: var(--background);
+  outline: var(--secondary);
+  border-color: var(--secondary);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 150ms ease;
+  appearance: none;
+}
+
+select option:hover {
+  background-color: transparent;
+}
+
+select:active, select:focus {
+  border-color: var(--secondary);
+  outline: none;
+}
+
 a,
 a:hover {
-  color: #ff5050;
+  color: var(--primary);
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
 }
 
 #app-logo {
@@ -16,15 +57,15 @@ a:hover {
 #logo {
   font-family: sans-serif;
   transition: all 0.1s ease;
-  box-shadow: 0 2px #ff6666;
+  box-shadow: 0 2px var(--primary);
   font-size: 3rem;
   font-weight: 600;
-  background: #fff;
+  background: var(--background);
   text-align: center;
   border-radius: 0.5rem;
-  border: 2px solid #000;
+  border: 2px solid var(--primary);
   padding: 1rem 2rem;
-  color: #333;
+  color: var(--primary);
 }
 
 #logo.pressed {
@@ -40,7 +81,7 @@ a:hover {
 .divider {
   display: block;
   width: 100%;
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid var(--secondary);
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
@@ -86,7 +127,7 @@ a:hover {
   /* Set a specific slider handle width */
   height: 20px;
   /* Slider handle height */
-  background: #ff5050;
+  background: var(--primary);
   /* Green background */
   cursor: pointer;
   /* Cursor on hover */
@@ -98,7 +139,7 @@ a:hover {
   /* Set a specific slider handle width */
   height: 20px;
   /* Slider handle height */
-  background: #ff5050;
+  background: var(--primary);
   /* Green background */
   cursor: pointer;
   /* Cursor on hover */

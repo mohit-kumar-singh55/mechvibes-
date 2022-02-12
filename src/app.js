@@ -180,6 +180,7 @@ function packsToOptions(packs, pack_list) {
       opt.text = pack.name;
       opt.value = pack.pack_id;
       opt.selected = is_selected ? 'selected' : false;
+      opt.className = "small";
       optgroup.appendChild(opt);
     }
     pack_list.appendChild(optgroup);
@@ -217,7 +218,7 @@ function packsToOptions(packs, pack_list) {
     packsToOptions(packs, pack_list);
 
     // check for new version
-    fetch('https://api.github.com/repos/hainguyents13/mechvibes/releases/latest')
+    fetch('https://api.github.com/repos/val8119/mechvibes-/releases/latest')
       .then((res) => res.json())
       .then((json) => {
         if (json.tag_name > APP_VERSION) {

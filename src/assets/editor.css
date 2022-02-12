@@ -32,9 +32,6 @@ body {
   margin-right: 15px;
 }
 
-#zone-numpad {
-}
-
 .key-row {
   width: 100%;
   height: var(--keybasewidth);
