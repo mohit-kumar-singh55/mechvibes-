@@ -1,14 +1,14 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Tray, Menu, shell, ipcMain } = require('electron');
-const path = require('path');
-const fs = require('fs-extra');
+const { app, BrowserWindow, Tray, Menu, shell, ipcMain } = require("electron");
+const path = require("path");
+const fs = require("fs-extra");
 
-const StartupHandler = require('./utils/startup_handler');
-const ListenHandler = require('./utils/listen_handler');
+const StartupHandler = require("./utils/startup_handler");
+const ListenHandler = require("./utils/listen_handler");
 
-const SYSTRAY_ICON = path.join(__dirname, '/assets/system-tray-icon.png');
-const home_dir = app.getPath('home');
-const custom_dir = path.join(home_dir, '/mechvibes_custom');
+const SYSTRAY_ICON = path.join(__dirname, "/assets/system-tray-icon.png");
+const home_dir = app.getPath("home");
+const custom_dir = path.join(home_dir, "/mechvibes_custom");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,6 +19,17 @@ global.custom_dir = custom_dir;
 // create custom sound folder if not exists
 fs.ensureDirSync(custom_dir);
 
+// ! Live reload, remove for build
+try {
+  require("electron-reloader")(module, {
+    debug: true,
+    watchRenderer: true,
+  });
+} catch (_) {
+  console.log("Error");
+}
+// ! Live reload, remove for build
+
 function createWindow(show = true) {
   // Create the browser window.
   win = new BrowserWindow({
@@ -28,7 +39,7 @@ function createWindow(show = true) {
     // resizable: false,
     // fullscreenable: false,
     webPreferences: {
-      preload: path.join(__dirname, 'app.js'),
+      preload: path.join(__dirname, "app.js"),
       contextIsolation: false,
       nodeIntegration: true,
     },
@@ -39,31 +50,31 @@ function createWindow(show = true) {
   win.removeMenu();
 
   // and load the index.html of the app.
-  win.loadFile('./src/app.html');
+  win.loadFile("./src/app.html");
 
   // Open the DevTools.
   // win.openDevTools();
   // win.webContents.openDevTools();
 
   // Emitted when the window is closed.
-  win.on('closed', function () {
+  win.on("closed", function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null;
   });
 
-  win.on('minimize', function (event) {
-    if (process.platform === 'darwin') {
+  win.on("minimize", function (event) {
+    if (process.platform === "darwin") {
       app.dock.hide();
     }
     event.preventDefault();
     win.hide();
   });
 
-  win.on('close', function (event) {
+  win.on("close", function (event) {
     if (!app.isQuiting) {
-      if (process.platform === 'darwin') {
+      if (process.platform === "darwin") {
         app.dock.hide();
       }
       event.preventDefault();
@@ -76,7 +87,7 @@ function createWindow(show = true) {
 }
 
 const gotTheLock = app.requestSingleInstanceLock();
-app.on('second-instance', () => {
+app.on("second-instance", () => {
   // Someone tried to run a second instance, we should focus our window.
   if (win) {
     win.show();
@@ -87,7 +98,7 @@ app.on('second-instance', () => {
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', () => {
+  app.on("second-instance", () => {
     // Someone tried to run a second instance, we should focus our window.
     if (win) {
       if (win.isMinimized()) {
@@ -103,14 +114,14 @@ if (!gotTheLock) {
   // Some APIs can only be used after this event occurs.
   // Don't show the window and create a tray instead
   // create and get window instance
-  app.on('ready', () => {
+  app.on("ready", () => {
     win = createWindow(true);
 
     // start tray icon
     tray = new Tray(SYSTRAY_ICON);
 
     // tray icon tooltip
-    tray.setToolTip('Mechvibes');
+    tray.setToolTip("mechvibes-");
 
     const startup_handler = new StartupHandler(app);
     const listen_handler = new ListenHandler(app);
@@ -118,43 +129,43 @@ if (!gotTheLock) {
     // context menu when hover on tray icon
     const contextMenu = Menu.buildFromTemplate([
       {
-        label: 'Mechvibes',
+        label: "mechvibes-",
         click: function () {
           // show app on click
           win.show();
         },
       },
       {
-        label: 'Editor',
+        label: "Editor",
         click: function () {
           openEditorWindow();
         },
       },
       {
-        label: 'Custom Folder',
+        label: "Custom Folder",
         click: function () {
           shell.openItem(custom_dir);
         },
       },
       {
-        label: 'Mute',
-        type: 'checkbox',
+        label: "Mute",
+        type: "checkbox",
         checked: listen_handler.is_muted,
         click: function () {
           listen_handler.toggle();
-          win.webContents.send('muted', listen_handler.is_muted);
+          win.webContents.send("muted", listen_handler.is_muted);
         },
       },
       {
-        label: 'Enable at Startup',
-        type: 'checkbox',
+        label: "Enable at Startup",
+        type: "checkbox",
         checked: startup_handler.is_enabled,
         click: function () {
           startup_handler.toggle();
         },
       },
       {
-        label: 'Quit',
+        label: "Quit",
         click: function () {
           // quit
           app.isQuiting = true;
@@ -164,39 +175,39 @@ if (!gotTheLock) {
     ]);
 
     // double click on tray icon, show the app
-    tray.on('double-click', () => {
+    tray.on("double-click", () => {
       win.show();
     });
 
     tray.setContextMenu(contextMenu);
 
     // prevent Electron app from interrupting macOS system shutdown
-    if (process.platform == 'darwin') {
-      const { powerMonitor } = require('electron');
-      powerMonitor.on('shutdown', () => {
+    if (process.platform == "darwin") {
+      const { powerMonitor } = require("electron");
+      powerMonitor.on("shutdown", () => {
         app.quit();
       });
     }
   });
 }
 
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on("window-all-closed", function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') app.quit();
+  if (process.platform !== "darwin") app.quit();
 });
 
-app.on('activate', function () {
+app.on("activate", function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) createWindow();
 });
 
 // always be sure that your application handles the 'quit' event in your main process
-app.on('quit', () => {
+app.on("quit", () => {
   app.quit();
 });
 
@@ -224,9 +235,9 @@ function openEditorWindow() {
 
   // editor_window.openDevTools();
 
-  editor_window.loadFile('./src/editor.html');
+  editor_window.loadFile("./src/editor.html");
 
-  editor_window.on('closed', function () {
+  editor_window.on("closed", function () {
     editor_window = null;
   });
 }

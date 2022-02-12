@@ -110,7 +110,7 @@ function checkIfAllSoundLoaded(status_display_elem, app_body) {
       return false;
     }
   });
-  status_display_elem.innerHTML = 'Mechvibes';
+  status_display_elem.innerHTML = 'mechvibes-';
   app_body.classList.remove('loading');
   return true;
 }

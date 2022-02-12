@@ -1,9 +1,9 @@
 {
-  "name": "mechvibes",
-  "productName": "Mechvibes",
+  "name": "mechvibes-",
+  "productName": "mechvibes-",
   "version": "v2.3.1",
   "description": "Play mechanical keyboard sounds as you type.",
-  "repository": "https://github.com/hainguyents13/mechvibes",
+  "repository": "https://github.com/val8119/mechvibes",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -12,10 +12,9 @@
     "build:linux": "electron-builder -l"
   },
   "keywords": [],
-  "homepage": "https://mechvibes.com",
+  "homepage": "https://github.com/val8119/mechvibes",
   "author": {
-    "name": "Hai Nguyen",
-    "email": "hainguyen.ts13@gmail.com"
+    "name": "val8119"
   },
   "license": "MIT",
   "iohook": {
@@ -96,6 +95,7 @@
     "electron-builder": "^21.2.0",
     "electron-compile": "^6.4.4",
     "electron-packager": "^14.1.1",
-    "electron-prebuilt": "^1.4.13"
+    "electron-prebuilt": "^1.4.13",
+    "electron-reloader": "^1.2.2"
   }
 }
