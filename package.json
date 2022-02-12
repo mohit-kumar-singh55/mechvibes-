@@ -91,7 +91,7 @@
     "iohook": "^0.6.2"
   },
   "devDependencies": {
-    "app-builder-lib": "^22.2.0",
+    "app-builder-lib": "^22.14.13",
     "electron": "^6.1.5",
     "electron-builder": "^21.2.0",
     "electron-compile": "^6.4.4",
