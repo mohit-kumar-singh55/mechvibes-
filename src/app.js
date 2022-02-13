@@ -165,33 +165,35 @@ function packsToOptions(packs, pack_list) {
     }
   });
 
-  for (let group of groups) {
-    const optgroup = document.createElement('optgroup');
-    optgroup.label = group.name;
-    for (let pack of group.packs) {
-      // check if selected
-      const is_selected = selected_pack_id == pack.pack_id;
-      if (is_selected) {
-        // pack current pack to saved pack
-        current_pack = pack;
-      }
-      // add pack to pack list
-      const opt = document.createElement('option');
-      opt.text = pack.name;
-      opt.value = pack.pack_id;
-      opt.selected = is_selected ? 'selected' : false;
-      opt.className = "small";
-      optgroup.appendChild(opt);
-    }
-    pack_list.appendChild(optgroup);
-  }
+  // for (let group of groups) {
+  //   const optgroup = document.createElement('optgroup');
+  //   optgroup.label = group.name;
+  //   for (let pack of group.packs) {
+  //     // check if selected
+  //     const is_selected = selected_pack_id == pack.pack_id;
+  //     if (is_selected) {
+  //       // pack current pack to saved pack
+  //       current_pack = pack;
+  //     }
+  //     // add pack to pack list
+  //     const opt = document.createElement('option');
+  //     opt.text = pack.name;
+  //     opt.value = pack.pack_id;
+  //     opt.selected = is_selected ? 'selected' : false;
+  //     opt.className = "small";
+  //     optgroup.appendChild(opt);
+  //   }
+  //   pack_list.appendChild(optgroup);
+  // }
 
   // on select an option
   // update saved list id
   pack_list.addEventListener('change', (e) => {
+    console.log(e)
     const selected_id = e.target.options[e.target.selectedIndex].value;
     store.set(MV_PACK_LSID, selected_id);
     current_pack = getPack();
+    console.log(current_pack);
   });
 }
 
@@ -237,6 +239,10 @@ function packsToOptions(packs, pack_list) {
 
     // get last selected pack
     current_pack = getPack();
+
+    console.log(current_pack);
+
+    console.log(pack_list);
 
     // display volume value
     if (store.get(MV_VOL_LSID)) {

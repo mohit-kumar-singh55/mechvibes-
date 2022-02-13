@@ -33,18 +33,17 @@ try {
 function createWindow(show = true) {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 400,
-    height: 550,
+    width: 350,
+    height: 500,
     webSecurity: false,
-    // resizable: false,
-    // fullscreenable: false,
+    resizable: false,
+    fullscreenable: false,
     webPreferences: {
       preload: path.join(__dirname, "app.js"),
       contextIsolation: false,
       nodeIntegration: true,
     },
     show,
-    resizable: false
   });
 
   // remove menu bar
